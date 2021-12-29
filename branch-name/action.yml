@@ -1,0 +1,18 @@
+name: Branch Name
+description: Gets the branch name that the Git Action is being called on.
+author: Selig Labs, Inc <info@seliglabs.com>
+outputs:
+  branch:
+    description: The name of the branch that the GitAction is being run for.
+    value: ${{ steps.branch.outputs.name }}
+runs:
+  using: composite
+  steps:
+    - name: Extract branch Name
+      id: branch
+      shell: bash
+      run: echo "::set-output name=name::$(echo ${GITHUB_REF#refs/heads/})"
+
+branding:
+  icon: refresh-cw
+  color: blue
