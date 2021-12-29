@@ -1,0 +1,43 @@
+name: S3 Sync
+description: Sync a directory to an AWS S3 repository
+author: Selig Labs, Inc <info@seliglabs.com>
+inputs:
+  AWS_ACCESS_KEY_ID:
+    description: The AWS access key ID.
+    required: true
+  AWS_SECRET_ACCESS_KEY:
+    description: The AWS secret access key.
+    required: true
+  AWS_REGION:
+    description: The target AWS region.
+    required: false
+    default: us-east-1
+  AWS_S3_BUCKET:
+    description: The target S3 bucket to sync with.
+    required: true
+  AWS_S3_ENDPOINT:
+    description: The AWS endpoint.
+    required: false
+    default: s3.amazonaws.com
+  SOURCE_DIR:
+    description: The local directory (or file) you wish to sync/upload to S3.
+    required: false
+    default: ./
+  DEST_DIR:
+    description: The directory inside of the S3 bucket you wish to sync/upload to.
+    required: false
+    default: /
+runs:
+  using: docker
+  image: Dockerfile
+  env:
+    AWS_ACCESS_KEY_ID: ${{ inputs.AWS_ACCESS_KEY_ID }}
+    AWS_SECRET_ACCESS_KEY: ${{ inputs.AWS_SECRET_ACCESS_KEY }}
+    AWS_REGION: ${{ inputs.AWS_REGION }}
+    AWS_S3_BUCKET: ${{ inputs.AWS_S3_BUCKET }}
+    SOURCE_DIR: ${{ inputs.SOURCE_DIR }}
+    DEST_DIR: ${{ inputs.DEST_DIR }}
+
+branding:
+  icon: refresh-cw
+  color: blue
