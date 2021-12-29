@@ -1,6 +1,7 @@
 name: S3 Sync
 description: Sync a directory to an AWS S3 repository
 author: Selig Labs, Inc <info@seliglabs.com>
+
 inputs:
   AWS_ACCESS_KEY_ID:
     description: The AWS access key ID.
@@ -27,6 +28,7 @@ inputs:
     description: The directory inside of the S3 bucket you wish to sync/upload to.
     required: false
     default: /
+
 runs:
   using: docker
   image: Dockerfile
