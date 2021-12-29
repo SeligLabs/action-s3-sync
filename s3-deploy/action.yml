@@ -19,7 +19,6 @@ inputs:
   AWS_S3_ENDPOINT:
     description: The AWS endpoint.
     required: false
-    default: s3.amazonaws.com
   SOURCE_DIR:
     description: The local directory (or file) you wish to sync/upload to S3.
     required: false
