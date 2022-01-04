@@ -11,6 +11,17 @@ inputs:
 runs:
   using: composite
   steps:
+    - name: Checkout Branch
+      uses: actions/checkout@master
+      with:
+        persist-credentials: false
+
+    - name: Reconfigure git to use HTTP authentication
+      shell: bash
+      run: >
+        git config --global url."https://github.com/".insteadOf
+        ssh://git@github.com/
+
     - uses: actions/setup-node@v1
       with:
         node-version: ${{ inputs.NODE_VERSION }}
