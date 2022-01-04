@@ -29,16 +29,18 @@ inputs:
     default: /
 
 runs:
-  using: docker
-  image: Dockerfile
-  env:
-    AWS_ACCESS_KEY_ID: ${{ inputs.AWS_ACCESS_KEY_ID }}
-    AWS_SECRET_ACCESS_KEY: ${{ inputs.AWS_SECRET_ACCESS_KEY }}
-    AWS_REGION: ${{ inputs.AWS_REGION }}
-    AWS_S3_BUCKET: ${{ inputs.AWS_S3_BUCKET }}
-    AWS_S3_ENDPOINT: ${{ inputs.AWS_S3_ENDPOINT }}
-    SOURCE_DIR: ${{ inputs.SOURCE_DIR }}
-    DEST_DIR: ${{ inputs.DEST_DIR }}
+  using: composite
+  steps:
+    - shell: bash
+      run: $GITHUB_ACTION_PATH/sync.sh
+      with:
+        AWS_ACCESS_KEY_ID: ${{ inputs.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ inputs.AWS_SECRET_ACCESS_KEY }}
+        AWS_REGION: ${{ inputs.AWS_REGION }}
+        AWS_S3_BUCKET: ${{ inputs.AWS_S3_BUCKET }}
+        AWS_S3_ENDPOINT: ${{ inputs.AWS_S3_ENDPOINT }}
+        SOURCE_DIR: ${{ inputs.SOURCE_DIR }}
+        DEST_DIR: ${{ inputs.DEST_DIR }}
 
 branding:
   icon: refresh-cw
