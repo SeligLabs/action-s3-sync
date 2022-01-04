@@ -2,45 +2,40 @@
 
 set -eo pipefail
 
-# check configuration
-
-err=0
-
-if [ -z "$DISTRIBUTION" ]; then
-  echo "error: DISTRIBUTION is not set"
-  err=1
-fi
-
-if [[ -z "$PATHS" && -z "$PATHS_FROM" ]]; then
-  echo "error: PATHS or PATHS_FROM is not set"
-  err=1
-fi
-
+# Check Configuration
 if [ -z "$AWS_ACCESS_KEY_ID" ]; then
-  echo "error: AWS_ACCESS_KEY_ID is not set"
-  err=1
-fi
-
-if [ -z "$AWS_SECRET_ACCESS_KEY" ]; then
-  echo "error: AWS_SECRET_ACCESS_KEY is not set"
-  err=1
-fi
-
-if [ -z "$AWS_REGION" ]; then
-  echo "error: AWS_REGION is not set"
-  err=1
-fi
-
-if [ $err -eq 1 ]; then
+  echo "FATAL ERROR: AWS_ACCESS_KEY_ID is not set."
   exit 1
 fi
 
-# run
+if [ -z "$AWS_SECRET_ACCESS_KEY" ]; then
+  echo "FATAL ERROR: AWS_SECRET_ACCESS_KEY is not set."
+  exit 1
+fi
 
-# Create a dedicated profile for this action to avoid
-# conflicts with other actions.
-# https://github.com/jakejarvis/s3-sync-action/issues/1
-aws configure --profile invalidate-cloudfront-action <<-EOF > /dev/null 2>&1
+# Default to us-east-1 if AWS_REGION not set.
+if [ -z "$AWS_REGION" ]; then
+  echo "INFO: AWS_REGION is not set. Using us-east-1."
+  AWS_REGION="us-east-1"
+fi
+
+
+if [ -z "$DISTRIBUTION" ]; then
+  echo "FATAL ERROR: DISTRIBUTION is not set."
+  exit 1
+fi
+
+if [[ -z "$PATHS" && -z "$PATHS_FROM" ]]; then
+  echo "FATAL ERROR: PATHS or PATHS_FROM is not set."
+  exit 1
+fi
+
+
+# Execute
+
+# Create a dedicated profile for this action to avoid conflicts
+# with other actions.
+aws configure --profile seliglabs-invalidate-cloudfront <<-EOF > /dev/null 2>&1
 ${AWS_ACCESS_KEY_ID}
 ${AWS_SECRET_ACCESS_KEY}
 ${AWS_REGION}
@@ -101,8 +96,7 @@ fi
 # Use our dedicated profile and suppress verbose messages.
 # Support v1.x of the awscli which does not have this flag
 [[ "$(aws --version)" =~ "cli/2" ]] && pagerflag="--no-cli-pager"
-aws $pagerflag --profile invalidate-cloudfront-action \
+aws $pagerflag --profile seliglabs-invalidate-cloudfront \
   cloudfront create-invalidation \
   --distribution-id "$DISTRIBUTION" \
   --cli-input-json "file://${RUNNER_TEMP}/invalidation-batch.json"
-  
