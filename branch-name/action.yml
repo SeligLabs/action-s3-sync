@@ -14,5 +14,5 @@ runs:
       run: echo "::set-output name=name::$(echo ${GITHUB_REF#refs/heads/})"
 
 branding:
-  icon: refresh-cw
+  icon: git-branch
   color: blue

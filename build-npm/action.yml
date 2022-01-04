@@ -1,0 +1,24 @@
+name: NPM Build
+description: Builds an npm project
+author: Selig Labs, Inc <info@seliglabs.com>
+
+inputs:
+  NODE_VERSION:
+    description: The node version to use.
+    required: false
+    default: "16"
+
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-node@v1
+      with:
+        node-version: ${{ inputs.NODE_VERSION }}
+    - shell: bash
+      run: npm ci
+    - shell: bash
+      run: npm run build
+
+branding:
+  icon: package
+  color: blue

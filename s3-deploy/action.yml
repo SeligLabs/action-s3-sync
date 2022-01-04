@@ -43,5 +43,5 @@ runs:
         DEST_DIR: ${{ inputs.DEST_DIR }}
 
 branding:
-  icon: refresh-cw
+  icon: cloud
   color: blue
