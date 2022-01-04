@@ -113,7 +113,7 @@ aws $pagerflag --profile seliglabs-invalidate-cloudfront \
 # Need to re-run `aws configure` with bogus input instead of
 # deleting ~/.aws in case there are other credentials living there.
 # https://forums.aws.amazon.com/thread.jspa?threadID=148833
-aws configure --seliglabs-invalidate-cloudfront <<-EOF > /dev/null 2>&1
+aws configure --profile seliglabs-invalidate-cloudfront <<-EOF > /dev/null 2>&1
 null
 null
 null
