@@ -1,8 +1,10 @@
-#!/bin/sh
+#!/bin/bash
 
 set -eo pipefail
 
+#####################
 # Check Configuration
+#####################
 if [ -z "$AWS_ACCESS_KEY_ID" ]; then
   echo "FATAL ERROR: AWS_ACCESS_KEY_ID is not set."
   exit 1
@@ -30,9 +32,9 @@ if [[ -z "$PATHS" && -z "$PATHS_FROM" ]]; then
   exit 1
 fi
 
-
-# Execute
-
+##################
+# Setup Enviorment
+##################
 # Create a dedicated profile for this action to avoid conflicts
 # with other actions.
 aws configure --profile seliglabs-invalidate-cloudfront <<-EOF > /dev/null 2>&1
@@ -63,6 +65,9 @@ if  [[ ! -x "$(command -v $jq)" || "$($jq --version)" != "jq-1.6" ]]; then
   fi
 fi
 
+#########
+# Execute
+#########
 if [[ -n "$PATHS_FROM" ]]; then
   echo "*** Reading PATHS from $PATHS_FROM"
   if [[ ! -f  $PATHS_FROM ]]; then
@@ -100,3 +105,17 @@ aws $pagerflag --profile seliglabs-invalidate-cloudfront \
   cloudfront create-invalidation \
   --distribution-id "$DISTRIBUTION" \
   --cli-input-json "file://${RUNNER_TEMP}/invalidation-batch.json"
+
+##########
+# Clean Up
+##########
+# Clear out credentials after we're done.
+# Need to re-run `aws configure` with bogus input instead of
+# deleting ~/.aws in case there are other credentials living there.
+# https://forums.aws.amazon.com/thread.jspa?threadID=148833
+aws configure --seliglabs-invalidate-cloudfront <<-EOF > /dev/null 2>&1
+null
+null
+null
+text
+EOF

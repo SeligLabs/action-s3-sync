@@ -1,8 +1,10 @@
-#!/bin/sh
+#!/bin/bash
 
-set -e
+set -eo pipefail
 
+#####################
 # Check Configuration
+#####################
 if [ -z "$AWS_ACCESS_KEY_ID" ]; then
   echo "FATAL ERROR: AWS_ACCESS_KEY_ID is not set."
   exit 1
@@ -29,8 +31,9 @@ if [ -n "$AWS_S3_ENDPOINT" ]; then
   ENDPOINT_APPEND="--endpoint-url $AWS_S3_ENDPOINT"
 fi
 
-# Execute
-
+##################
+# Setup Enviorment
+##################
 # Create a dedicated profile for this action to avoid conflicts
 # with other actions.
 aws configure --profile seliglabs-s3-sync <<-EOF > /dev/null 2>&1
@@ -40,6 +43,9 @@ ${AWS_REGION}
 text
 EOF
 
+#########
+# Execute
+#########
 # Sync using the dedicated profile and suppress verbose messages.
 # All other flags are optional via the `args:` directive.
 sh -c "aws s3 sync ${SOURCE_DIR:-.} s3://${AWS_S3_BUCKET}/${DEST_DIR} \
@@ -47,6 +53,9 @@ sh -c "aws s3 sync ${SOURCE_DIR:-.} s3://${AWS_S3_BUCKET}/${DEST_DIR} \
               --no-progress \
               ${ENDPOINT_APPEND} $*"
 
+##########
+# Clean Up
+##########
 # Clear out credentials after we're done.
 # Need to re-run `aws configure` with bogus input instead of
 # deleting ~/.aws in case there are other credentials living there.
