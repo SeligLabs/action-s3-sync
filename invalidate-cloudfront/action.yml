@@ -1,44 +1,13 @@
-name: Invalidate CloudFront Distribution
-description: Invalidates an AWS CloudFront distribution.
-author: Selig Labs, Inc <info@seliglabs.com>
-
-inputs:
-  AWS_ACCESS_KEY_ID:
-    description: The AWS access key ID.
-    required: true
-  AWS_SECRET_ACCESS_KEY:
-    description: The AWS secret access key.
-    required: true
-  AWS_REGION:
-    description: The target AWS region.
-    required: false
-    default: us-east-1
-  DISTRIBUTION:
-    description: The CloudFront distribution ID to operate on.
-    required: true
-  PATHS:
-    description: A list of one or more space-separated paths to invalidate.
-    required: true
-  PATHS_FROM:
-    description: Filename to read list of paths from.
-    required: true
-  DEBUG:
-    description: When set to true, prints the final awscli invalidation command for troubleshooting purposes.
-    required: false
-    default: "0"
+name: "Invalidate AWS CloudFront"
+description: "Invalidate CloudFront distribution paths"
+author: "Pixelcop Research, Inc."
+branding:
+  icon: "cloud-lightning"
+  color: "orange"
 
 runs:
-  using: docker
-  image: Dockerfile
-  env:
-    AWS_ACCESS_KEY_ID: ${{ inputs.AWS_ACCESS_KEY_ID }}
-    AWS_SECRET_ACCESS_KEY: ${{ inputs.AWS_SECRET_ACCESS_KEY }}
-    AWS_REGION: ${{ inputs.AWS_REGION }}
-    DISTRIBUTION: ${{ inputs.DISTRIBUTION }}
-    PATHS: ${{ inputs.PATHS }}
-    PATHS_FROM: ${{ inputs.PATHS_FROM }}
-    DEBUG: ${{ inputs.DEBUG }}
-
-branding:
-  icon: cloud-lightning
-  color: blue
+  using: "composite"
+  steps:
+    - shell: bash
+      run: |
+        $GITHUB_ACTION_PATH/invalidate-cloudfront/invalidate.sh

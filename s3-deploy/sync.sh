@@ -2,6 +2,7 @@
 
 set -e
 
+# Check Configuration
 if [ -z "$AWS_ACCESS_KEY_ID" ]; then
   echo "FATAL ERROR: AWS_ACCESS_KEY_ID is not set."
   exit 1
@@ -27,6 +28,8 @@ fi
 if [ -n "$AWS_S3_ENDPOINT" ]; then
   ENDPOINT_APPEND="--endpoint-url $AWS_S3_ENDPOINT"
 fi
+
+# Execute
 
 # Create a dedicated profile for this action to avoid conflicts
 # with other actions.
