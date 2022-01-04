@@ -27,6 +27,14 @@ inputs:
     description: The directory inside of the S3 bucket you wish to sync/upload to.
     required: false
     default: /
+  PUBLIC:
+    description: Makes the uploaded folders public.
+    required: false
+    default: 'true'
+  DELETE:
+    description: Permanently deletes files in the S3 bucket that are not present in the files uploaded.
+    required: false
+    default: 'true' 
 
 runs:
   using: composite

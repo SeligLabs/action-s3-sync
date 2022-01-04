@@ -26,11 +26,6 @@ if [ -z "$AWS_S3_BUCKET" ]; then
   exit 1
 fi
 
-# Override default AWS endpoint if user sets AWS_S3_ENDPOINT.
-if [ -n "$AWS_S3_ENDPOINT" ]; then
-  ENDPOINT_APPEND="--endpoint-url $AWS_S3_ENDPOINT"
-fi
-
 ##################
 # Setup Enviorment
 ##################
@@ -43,6 +38,22 @@ ${AWS_REGION}
 text
 EOF
 
+####################
+# CLI Confirguations
+####################
+if [ "$PUBLIC" == "true" ]; then
+  PUBLIC_APPEND="--acl public-read"
+fi
+
+if [ "$DELETE" == "true" ]; then
+  DELETE_APPEND="--delete"
+fi
+
+if [ -n "$AWS_S3_ENDPOINT" ]; then
+  ENDPOINT_APPEND="--endpoint-url $AWS_S3_ENDPOINT"
+fi
+
+
 #########
 # Execute
 #########
@@ -51,7 +62,10 @@ EOF
 sh -c "aws s3 sync ${SOURCE_DIR:-.} s3://${AWS_S3_BUCKET}/${DEST_DIR} \
               --profile seliglabs-s3-sync \
               --no-progress \
-              ${ENDPOINT_APPEND} $*"
+              --follow-symlinks \
+              ${PUBLIC_APPEND} \
+              ${DELETE_APPEND} \
+              ${ENDPOINT_APPEND}"
 
 ##########
 # Clean Up

@@ -1,0 +1,19 @@
+name: Log
+description: Logs a message
+author: Selig Labs, Inc <info@seliglabs.com>
+
+inputs:
+  LOG:
+    description: The message to log.
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Log
+      shell: bash
+      run: echo ${{ inputs.LOG }}
+
+branding:
+  icon: edit-2
+  color: blue
