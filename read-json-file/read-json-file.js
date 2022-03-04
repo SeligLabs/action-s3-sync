@@ -6,8 +6,8 @@ const core = require('@actions/core');
  * @param {string} path
  * @returns {object}
  */
-const readPackageJson = function (path) {
-    const packageJson = fs.readFileSync(path).toString();
+const readJson = function (path) {
+    const jsonData = fs.readFileSync(path).toString();
     return JSON.parse(packageJson);
 };
 
@@ -22,9 +22,9 @@ try {
      * Get data from package.json file
      * @type {object}
      */
-    const packageInfo = readPackageJson(path);
+    const jsonData = readJson(path);
 
-    core.setOutput('packageInfo', packageInfo);
+    core.setOutput('jsonData', jsonData);
 } catch (error) {
     core.setFailed(error.message);
 }

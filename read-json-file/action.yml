@@ -8,8 +8,8 @@ inputs:
     required: false
     default: ./package.json
 outputs:
-  packageInfo:
-    description: Package.json Data
+  jsonData:
+    description: JSON Data
 
 runs:
   using: node16
