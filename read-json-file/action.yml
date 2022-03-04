@@ -13,7 +13,7 @@ outputs:
 
 runs:
   using: node16
-  main: read-json-file.js
+  main: dist/index.js
 
 branding:
   icon: box

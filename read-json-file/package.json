@@ -1,0 +1,10 @@
+{
+  "name": "read-json-file",
+  "scripts": {
+    "build": "ncc build read-json-file.js --minify"
+  },
+  "devDependencies": {
+    "@actions/core": "^1.6.0",
+    "@vercel/ncc": "^0.33.3"
+  }
+}
