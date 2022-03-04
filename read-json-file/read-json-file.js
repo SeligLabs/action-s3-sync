@@ -8,7 +8,7 @@ const core = require('@actions/core');
  */
 const readJson = function (path) {
     const jsonData = fs.readFileSync(path).toString();
-    return JSON.parse(packageJson);
+    return JSON.parse(jsonData);
 };
 
 try {
