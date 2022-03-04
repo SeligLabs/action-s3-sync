@@ -12,8 +12,8 @@ outputs:
     description: JSON Data
 
 runs:
-  using: node12
-  main: dist/index.js
+  using: node16
+  main: $GITHUB_ACTION_PATH/dist/index.js
 
 branding:
   icon: box
