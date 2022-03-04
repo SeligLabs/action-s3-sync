@@ -1,0 +1,20 @@
+name: Get JSON File
+description: Reads JSON data into the action
+author: Selig Labs, Inc <info@seliglabs.com>
+
+inputs:
+  PATH:
+    description: Path to file
+    required: false
+    default: ./package.json
+outputs:
+  packageInfo:
+    description: Package.json Data
+
+runs:
+  using: node16
+  main: read-json-file.js
+
+branding:
+  icon: box
+  color: blue
