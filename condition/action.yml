@@ -19,7 +19,7 @@ outputs:
 
 runs:
   using: 'node16'
-  main: 'condition.js'
+  main: 'dist/index.js'
 
 
 branding:
