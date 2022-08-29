@@ -26,7 +26,6 @@ inputs:
   DEST_DIR:
     description: The directory inside of the S3 bucket you wish to sync/upload to.
     required: false
-    default: /
   PUBLIC:
     description: Makes the uploaded folders public.
     required: false
