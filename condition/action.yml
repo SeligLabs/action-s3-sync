@@ -1,0 +1,27 @@
+name: Condition Statement
+description: Evaluates conditional logic and returns specified value
+author: Selig Labs, Inc <info@seliglabs.com>
+
+inputs:
+  condition:
+    description: Conditional logic that evaluates to true or false
+    required: true
+
+  true:
+    description: Output value if condition is true
+
+  false:
+    description: Output value if condition is false
+
+outputs:
+  value:
+    description: Output value
+
+runs:
+  using: 'node16'
+  main: 'condition.js'
+
+
+branding:
+  icon: help-circle
+  color: blue
