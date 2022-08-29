@@ -8,6 +8,16 @@ inputs:
     required: false
     default: "16"
 
+  INSTALL_COMMAND:
+    description: The install command to use.
+    required: false
+    default: yarn
+
+  BUILD_COMMAND:
+    description: The build command to use.
+    required: false
+    default: yarn
+
 
 runs:
   using: composite
@@ -28,10 +38,10 @@ runs:
         node-version: ${{ inputs.NODE_VERSION }}
 
     - shell: bash
-      run: yarn
+      run: ${{ inputs.INSTALL_COMMAND }}
 
     - shell: bash
-      run: yarn build
+      run: ${{ inputs.BUILD_COMMAND }}
 
 
 branding:
