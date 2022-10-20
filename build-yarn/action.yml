@@ -8,6 +8,11 @@ inputs:
     required: false
     default: "16"
 
+  BUILD_DIR:
+    description: The directory to change
+    required: false
+    default: ""
+
   INSTALL_COMMAND:
     description: The install command to use.
     required: false
@@ -39,9 +44,11 @@ runs:
 
     - shell: bash
       run: ${{ inputs.INSTALL_COMMAND }}
+      working-directory: ${{ inputs.BUILD_DIR }}
 
     - shell: bash
       run: ${{ inputs.BUILD_COMMAND }}
+      working-directory: ${{ inputs.BUILD_DIR }}
 
 
 branding:

@@ -7,13 +7,22 @@ inputs:
     description: Path to file
     required: false
     default: ./package.json
+
+  BUILD_DIR:
+    description: The directory to change
+    required: false
+    default: ""
+
+
 outputs:
   jsonData:
     description: JSON Data
 
+
 runs:
   using: node16
   main: dist/index.js
+
 
 branding:
   icon: box

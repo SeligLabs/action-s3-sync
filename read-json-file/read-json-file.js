@@ -17,12 +17,20 @@ try {
      * @type {string}
      */
     const path = core.getInput('path');
+    /**
+     * Build directory path
+     * @type {string}
+     */
+
+    const buildDir = core.getInput('build_dir');
+
+    const constructedPath = (buildDir ? `${ buildDir }/` : '') + path;
 
     /**
      * Get data from package.json file
      * @type {object}
      */
-    const jsonData = readJson(path);
+    const jsonData = readJson(constructedPath);
 
     core.setOutput('jsonData', jsonData);
 } catch (error) {

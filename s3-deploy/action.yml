@@ -19,6 +19,10 @@ inputs:
   AWS_S3_ENDPOINT:
     description: The AWS endpoint.
     required: false
+  BUILD_DIR:
+    description: The directory to change
+    required: false
+    default: ""
   SOURCE_DIR:
     description: The local directory (or file) you wish to sync/upload to S3.
     required: false
@@ -46,6 +50,7 @@ runs:
         AWS_REGION: ${{ inputs.AWS_REGION }}
         AWS_S3_BUCKET: ${{ inputs.AWS_S3_BUCKET }}
         AWS_S3_ENDPOINT: ${{ inputs.AWS_S3_ENDPOINT }}
+        BUILD_DIR: ${{ inputs.BUILD_DIR }}
         SOURCE_DIR: ${{ inputs.SOURCE_DIR }}
         DEST_DIR: ${{ inputs.DEST_DIR }}
 

@@ -1,0 +1,19 @@
+name: Change Directory
+description: Changes the current directory
+author: Selig Labs, Inc <info@seliglabs.com>
+
+inputs:
+  DIRECTORY:
+    description: The directory to change
+    required: true
+
+
+runs:
+  using: composite
+  steps:
+    - shell: bash
+      run: cd ${{ inputs.DIRECTORY }}
+
+branding:
+  icon: package
+  color: blue

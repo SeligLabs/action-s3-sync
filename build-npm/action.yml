@@ -8,6 +8,12 @@ inputs:
     required: false
     default: "16"
 
+  BUILD_DIR:
+    description: The directory to change
+    required: false
+    default: ""
+
+
 runs:
   using: composite
   steps:
@@ -25,9 +31,13 @@ runs:
     - uses: actions/setup-node@v1
       with:
         node-version: ${{ inputs.NODE_VERSION }}
+  
     - shell: bash
+      working-directory: ${{ inputs.BUILD_DIR }}
       run: npm ci
+
     - shell: bash
+      working-directory: ${{ inputs.BUILD_DIR }}
       run: npm run build
 
 branding:

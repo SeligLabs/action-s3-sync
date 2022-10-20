@@ -41,6 +41,10 @@ EOF
 ####################
 # CLI Confirguations
 ####################
+if [ "$BUILD_DIR" != "" ]; then
+  SOURCE_DIR_APPEND="$BUILD_DIR/"
+fi
+
 if [ "$PUBLIC" == "true" ]; then
   PUBLIC_APPEND="--acl public-read"
 fi
@@ -59,7 +63,7 @@ fi
 #########
 # Sync using the dedicated profile and suppress verbose messages.
 # All other flags are optional via the `args:` directive.
-sh -c "aws s3 sync ${SOURCE_DIR:-.} s3://${AWS_S3_BUCKET}/${DEST_DIR} \
+sh -c "aws s3 sync ${SOURCE_DIR_APPEND}${SOURCE_DIR:-.} s3://${AWS_S3_BUCKET}/${DEST_DIR} \
               --profile seliglabs-s3-sync \
               --no-progress \
               --follow-symlinks \
